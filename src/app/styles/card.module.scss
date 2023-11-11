@@ -1,0 +1,271 @@
+@import "index";
+
+.container {
+  margin: 15px 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: $answerBackground;
+  -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  height: 60px;
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .time {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0px;
+    text-wrap: nowrap;
+    min-width: 80px;
+  }
+
+  .flag {
+    margin: 0px;
+    padding: 0px;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    width: 165px;
+    align-items: center;
+  }
+
+  .event {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 14px;
+    font-weight: 600;
+
+    .name {
+      padding: 3px 3px;
+    }
+  }
+
+  .Team {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    width: fit-content;
+
+    .formListHome {
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .formListAway {
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .home {
+      margin-right: 10px;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .image {
+        margin-right: 5px;
+        margin-left: 5px;
+      }
+      .name {
+        margin-right: 5px;
+        margin-left: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .nameDisplay {
+          text-wrap: nowrap;
+        }
+      }
+
+      .formListHome {
+        display: flex;
+        align-self: center;
+        margin: 0px 10px 0px 10px;
+      }
+    }
+    .vs {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .away {
+      width: 100%;
+      margin-right: 10px;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-items: center;
+
+      .image {
+        margin-right: 5px;
+        margin-left: 5px;
+      }
+      .name {
+        margin-right: 5px;
+        margin-left: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .nameDisplay {
+          text-wrap: nowrap;
+        }
+      }
+
+      .formListAway {
+        display: flex;
+        align-self: center;
+        margin: 0px 10px 0px 10px;
+      }
+    }
+  }
+
+  .Prediction {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .details {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $lightblue;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+
+  @media only screen and (max-width: 980px) {
+    flex-direction: column;
+    height: fit-content;
+    align-self: center;
+    .title {
+      width: 100%;
+      justify-content: space-between;
+      flex-direction: row;
+      margin-bottom: 5px;
+
+      .flag {
+        width: 300px;
+      }
+
+      .event {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+    .Team {
+      .home {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .away {
+        justify-content: space-between;
+      }
+    }
+    .Prediction {
+      width: 100%;
+      align-self: center;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .details {
+      width: 200px;
+      justify-content: center;
+      align-items: center;
+      border-top: 2px solid $lightblue;
+      border-bottom: 2px solid $lightblue;
+      padding: 8px;
+      align-self: center;
+      font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 570px) {
+    .event {
+      .name {
+        font-size: 10px;
+      }
+    }
+    .Team {
+      flex-direction: column;
+
+      .home {
+        flex-direction: row;
+        font-size: 12px;
+      }
+
+      .vs {
+        font-size: 10px;
+      }
+
+      .away {
+        flex-direction: row;
+        font-size: 12px;
+      }
+    }
+    .Prediction {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .details {
+      width: 150px;
+      justify-content: center;
+      align-items: center;
+      border-top: 2px solid $lightblue;
+      border-bottom: 2px solid $lightblue;
+      padding: 7px;
+      align-self: center;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}

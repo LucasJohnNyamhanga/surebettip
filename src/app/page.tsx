@@ -1,95 +1,140 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import styles from "./styles/page.module.scss";
+import { getFixtures, getPrediction } from "./Engine/fetchRequest";
+import Card from "./components/card";
+import {
+  compareByPriorty,
+  emptyLogo,
+  getRandomNumber,
+  getTodayDate,
+} from "./Engine/functions";
+import { dataMainType, fixtureType, predictionType } from "./Engine/type";
+import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const dataPrediction: predictionType[] = await getPrediction();
+  const dataFixtures: fixtureType[] = await getFixtures();
+
+  let dataMain: dataMainType[] = [];
+
+  dataFixtures.map((fixture) => {
+    dataPrediction.some((prediction) => {
+      if (prediction.match_id === fixture.match_id) {
+        dataMain.push({ fixture, prediction });
+      }
+
+      if (fixture.match_hometeam_name == "Stade d Abidjan") {
+        console.log(fixture.team_home_badge);
+      }
+    });
+  });
+
+  //console.log(dataMain);
+
+  let countriesFixture: { name: string; flag: string; priority: number }[] = [];
+  let priorityCountries: { name: string; priority: number }[] = [
+    { name: "Tanzania", priority: 1 },
+    { name: "eurocups", priority: 2 },
+    { name: "England", priority: 1 },
+    { name: "Spain", priority: 2 },
+    { name: "Italy", priority: 2 },
+    { name: "France", priority: 2 },
+    { name: "Belgium", priority: 3 },
+    { name: "Egypt", priority: 4 },
+    { name: "Germany", priority: 2 },
+    { name: "Saudi Arabia", priority: 3 },
+    { name: "South Africa", priority: 4 },
+    { name: "Portugal", priority: 2 },
+    { name: "Turkey", priority: 3 },
+    { name: "Ghana", priority: 4 },
+    { name: "Burundi", priority: 4 },
+    { name: "Algeria", priority: 4 },
+    { name: "Kenya", priority: 4 },
+    { name: "Morocco", priority: 3 },
+    { name: "Ivory Coast", priority: 4 },
+  ];
+
+  dataMain.map((data) => {
+    if (
+      countriesFixture.some(
+        (contry) => contry.name === data.fixture.country_name
+      )
+    ) {
+    } else {
+      let priorityAssigned = 5;
+      priorityCountries.some((contry) => {
+        if (contry.name === data.fixture.country_name) {
+          priorityAssigned = contry.priority;
+        }
+      });
+
+      countriesFixture.push({
+        name: data.fixture.country_name,
+        flag: data.fixture.country_logo,
+        priority: priorityAssigned,
+      });
+    }
+  });
+
+  countriesFixture.sort(compareByPriorty);
+  //console.log(countriesFixture);
+
+  let dataFixtureByCountry: {
+    country: string;
+    flag: string;
+    fixture: dataMainType[];
+  }[] = [];
+
+  countriesFixture.map((contry) => {
+    let fixtureByCountry = dataMain.filter(function (data) {
+      return contry.name === data.fixture.country_name;
+    });
+
+    dataFixtureByCountry.push({
+      country: contry.name,
+      flag: contry.flag,
+      fixture: fixtureByCountry,
+    });
+  });
+
+  // const getFixture = (id: number) => {
+  //   console.log(id);
+  // };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <div
+          className={styles.headerTop}
+        >{`Free Betting Tips For ${getTodayDate()}`}</div>
+        {dataFixtureByCountry.map((match) => (
+          <>
+            <div className={styles.headerTopImage}>
+              <Image
+                alt=""
+                src={match.flag == "" ? emptyLogo : match.flag}
+                style={{ objectFit: "contain" }}
+                width={35}
+                height={35}
+              />
+              <div className={styles.text}>{match.country}</div>
+            </div>
+            {match.fixture.map((data, index) => (
+              <Card
+                key={data.fixture.match_id + index}
+                data={data}
+                time={data.fixture.match_date}
+                leagueName={data.fixture.league_name}
+                country={data.fixture.country_name}
+                countryFlag={data.fixture.country_logo}
+                homeTeam={data.fixture.match_hometeam_name}
+                awayTeam={data.fixture.match_awayteam_name}
+                homeTeamLogo={data.fixture.team_home_badge}
+                awayTeamLogo={data.fixture.team_away_badge}
+              />
+            ))}
+          </>
+        ))}
+      </main>
+    </div>
+  );
 }
