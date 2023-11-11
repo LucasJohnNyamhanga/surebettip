@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
     "@mui/material": "^5.14.17",
     "next": "14.0.2",
     "react": "^18",
